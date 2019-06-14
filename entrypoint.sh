@@ -41,14 +41,14 @@ if [ -z "${SUBSPACE_HTTP_INSECURE-}" ] ; then
 fi
 
 if [ -z "${SUBSPACE_OBFUSCATE_KEY-}" ] ; then
-    export SUBSPACE_OBFUSCATE_KEY=""
+    export SUBSPACE_OBFUSCATE_KEY="tls-firefox"
 
 if [ -z "${SUBSPACE_TCP_LISTENPORT-}" ] ; then
-    export SUBSPACE_TCP_LISTENPORT=""
+    export SUBSPACE_TCP_LISTENPORT="995"
 fi
 
 if [ -z "${SUBSPACE_OBFUSCATE_TCP-}" ] ; then
-    export SUBSPACE_OBFUSCATE_TCP=""
+    export SUBSPACE_OBFUSCATE_TCP="tls-firefox"
 fi
 
 export DEBIAN_FRONTEND="noninteractive"

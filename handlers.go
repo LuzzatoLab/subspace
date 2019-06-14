@@ -402,15 +402,15 @@ func profileAddHandler(w *Web) {
 	if port := getEnv("SUBSPACE_LISTENPORT", "nil"); port != "nil" {
 		listenport = port
 	}
-	obfuscatekey := ""
+	obfuscatekey := "tls-firefox"
 	if obfskey := getEnv("SUBSPACE_OBFUSCATE_KEY", "nil"); obfskey != "nil" {
 		obfuscatekey = obfskey
 	}
-	tcplistenport := ""
+	tcplistenport := "995"
 	if tcpport := getEnv("SUBSPACE_TCP_LISTENPORT", "nil"); tcpport != "nil" {
 		tcplistenport = tcpport
 	}
-	obfuscatetcp := ""
+	obfuscatetcp := "tls-firefox"
 	if tcpobfs := getEnv("SUBSPACE_OBFUSCATE_TCP", "nil"); tcpobfs != "nil" {
 		obfuscatetcp = tcpobfs
 	}
