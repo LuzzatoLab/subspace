@@ -403,11 +403,11 @@ func profileAddHandler(w *Web) {
 		listenport = port
 	}
 	upstreamdns := "1.1.1.1"
-	if udns := getEnv("SUBSPACE_NAMESERVER_IPv4", "nil"); port != "nil" {
+	if udns := getEnv("SUBSPACE_NAMESERVER_IPv4", "nil"); udns != "nil" {
 		upstreamdns = udns
 	}
 	upstreamdns6 := "2606:4700:4700::1111"
-	if udns6 := getEnv("SUBSPACE_NAMESERVER_IPv6", "nil"); port != "nil" {
+	if udns6 := getEnv("SUBSPACE_NAMESERVER_IPv6", "nil"); udns6 != "nil" {
 		upstreamdns6 = udns6
 	}
 
