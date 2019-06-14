@@ -402,6 +402,18 @@ func profileAddHandler(w *Web) {
 	if port := getEnv("SUBSPACE_LISTENPORT", "nil"); port != "nil" {
 		listenport = port
 	}
+	obfuscatekey := ""
+	if obfskey := getEnv("SUBSPACE_OBFUSCATE_KEY", "nil"); obfskey != "nil" {
+		obfuscatekey = obfskey
+	}
+	tcplistenport := ""
+	if tcpport := getEnv("SUBSPACE_TCP_LISTENPORT", "nil"); tcpport != "nil" {
+		tcplistenport = tcpport
+	}
+	obfuscatetcp := ""
+	if tcpobfs := getEnv("SUBSPACE_OBFUSCATE_TCP", "nil"); tcpobfs != "nil" {
+		obfuscatetcp = tcpobfs
+	}
 
 	script := `
 cd {{$.Datadir}}/wireguard
@@ -421,10 +433,13 @@ cat <<WGCLIENT >clients/{{$.Profile.ID}}.conf
 PrivateKey = ${wg_private_key}
 DNS = {{$.IPv4Gw}}, {{$.IPv6Gw}}
 Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}},{{$.IPv6Pref}}{{$.Profile.Number}}/{{$.IPv6Cidr}}
+ObfuscateKey= {{$.Obfskey}}
+ObfuscateTCP= {{$.Obfskeytcp}}
 
 [Peer]
 PublicKey = $(cat server.public)
 Endpoint = {{$.Domain}}:{{$.Listenport}}
+Endpoint = tcp://{{$.Domain}}:{{$.Tcplistenport}}
 AllowedIPs = 0.0.0.0/0, ::/0
 WGCLIENT
 `
@@ -437,8 +452,11 @@ WGCLIENT
 		IPv4Pref string
 		IPv6Pref string
 		IPv4Cidr string
-                IPv6Cidr string
+        IPv6Cidr string
 		Listenport string
+		Obfskey string
+		Tcplistenport string
+		Obfskeytcp string
 	}{
 		profile,
 		httpHost,
@@ -448,8 +466,11 @@ WGCLIENT
 		ipv4Pref,
 		ipv6Pref,
 		ipv4Cidr,
-                ipv6Cidr,
+        ipv6Cidr,
 		listenport,
+		obfuscatekey,
+		tcplistenport,
+		obfuscatetcp,		
 	})
 	if err != nil {
 		logger.Warn(err)

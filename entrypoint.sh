@@ -4,7 +4,7 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-# Require environment variables.
+# Required environment variables.
 if [ -z "${SUBSPACE_HTTP_HOST-}" ] ; then
     echo "Environment variable SUBSPACE_HTTP_HOST required. Exiting."
     exit 1
@@ -38,6 +38,17 @@ fi
 
 if [ -z "${SUBSPACE_HTTP_INSECURE-}" ] ; then
     export SUBSPACE_HTTP_INSECURE="false"
+fi
+
+if [ -z "${SUBSPACE_OBFUSCATE_KEY-}" ] ; then
+    export SUBSPACE_OBFUSCATE_KEY=""
+
+if [ -z "${SUBSPACE_TCP_LISTENPORT-}" ] ; then
+    export SUBSPACE_TCP_LISTENPORT=""
+fi
+
+if [ -z "${SUBSPACE_OBFUSCATE_TCP-}" ] ; then
+    export SUBSPACE_OBFUSCATE_TCP=""
 fi
 
 export DEBIAN_FRONTEND="noninteractive"
@@ -126,6 +137,10 @@ cat <<WGSERVER >/data/wireguard/server.conf
 [Interface]
 PrivateKey = $(cat /data/wireguard/server.private)
 ListenPort = ${SUBSPACE_LISTENPORT}
+ListenPortTCP = ${SUBSPACE_TCP_LISTENPORT}
+ObfuscateKey= ${SUBSPACE_OBFUSCATE_KEY}
+ObfuscateTCP= ${SUBSPACE_OBFUSCATE_TCP}
+
 
 WGSERVER
 cat /data/wireguard/peers/*.conf >>/data/wireguard/server.conf
