@@ -203,6 +203,13 @@ $ sudo docker rm subspace
 $ sudo docker create ... (see above)
 ```
 
+## Build new version subspace
+```
+docker build -f Dockerfile.build . -t subspace --network=host
+docker run -ti -v `pwd`:/tmp/bin subspace:latest cp /usr/bin/subspace-linux-amd64 /tmp/bin
+docker build -t youhubid/subspace:v0.0.4  . -f Dockerfile --network=host
+docker push youhubid/subspace
+```
 ## Help / Reporting Bugs
 
 Email support@portal.cloud
