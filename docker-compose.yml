@@ -28,6 +28,7 @@ services:
       SUBSPACE_IPV4_POOL: ${SUBSPACE_IPV4_POOL}
       SUBSPACE_IPV6_POOL: ${SUBSPACE_IPV6_POOL}
       SUBSPACE_IPV6_NAT_ENABLED: 1
+     #SUBSPACE_ROUTE: ${SUBSPACE_ROUTE}
     ports:
       - target: ${WG_PORT}
         published: ${WG_PORT}
@@ -38,8 +39,8 @@ services:
       - "traefik.http.routers.${SERVICE}.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.services.${SERVICE}.loadbalancer.server.port=${SERVICE_PORT}"
       - "traefik.http.routers.${SERVICE}.tls.certresolver=le"
-      - "traefik.http.routers.${SERVICE}.entrypoints=web-secure" 
-      - "traefik.http.middlewares.${SERVICE}_https.redirectscheme.scheme=https" 
+      - "traefik.http.routers.${SERVICE}.entrypoints=web-secure"
+      - "traefik.http.middlewares.${SERVICE}_https.redirectscheme.scheme=https"
       - "traefik.http.routers.${SERVICE}_redirect.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.routers.${SERVICE}_redirect.entrypoints=web"
       - "traefik.http.routers.${SERVICE}_redirect.middlewares=${SERVICE}_https"
