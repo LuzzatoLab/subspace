@@ -366,13 +366,6 @@ func profileAddHandler(w *Web) {
 		return
 	}
 
-	profile, err := config.AddProfile(userID, name, platform)
-	if err != nil {
-		logger.Warn(err)
-		w.Redirect("/?error=addprofile")
-		return
-	}
-
 	ipv4Pref := "10.99.97."
 	if pref := getEnv("SUBSPACE_IPV4_PREF", "nil"); pref != "nil" {
 		ipv4Pref = pref
@@ -403,6 +396,13 @@ func profileAddHandler(w *Web) {
 		listenport = port
 	}
 
+	profile, err := config.AddProfile(userID, name, platform, ipv4Pref, ipv4Cidr)
+	if err != nil {
+		logger.Warn(err)
+		w.Redirect("/?error=addprofile")
+		return
+	}
+
 	script := `
 cd {{$.Datadir}}/wireguard
 wg_private_key="$(wg genkey)"
@@ -426,12 +426,13 @@ Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}},{{$.IPv6Pref}}{{$.Pr
 PublicKey = $(cat server.public)
 Endpoint = {{$.Domain}}:{{$.Listenport}}
 AllowedIPs = 0.0.0.0/0, ::/0
+PersistentKeepalive = 10
 WGCLIENT
 `
 	_, err = bash(script, struct {
 		Profile  Profile
 		Domain   string
-		Datadir string		
+		Datadir string
 		IPv4Gw   string
 		IPv6Gw   string
 		IPv4Pref string
