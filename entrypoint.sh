@@ -155,7 +155,7 @@ ip addr add ${SUBSPACE_IPV6_GW}/${SUBSPACE_IPV6_CIDR} dev wg0
 wg setconf wg0 /data/wireguard/server.conf
 ip link set wg0 up
 if [ -z "${SUBSPACE_ROUTE-}" ] ; then
-  /sbin/ip route add "${SUBSPACE_ROUTE}"
+  /sbin/ip route add ${SUBSPACE_ROUTE}
 fi
 
 # dnsmasq service
