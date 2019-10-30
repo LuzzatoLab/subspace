@@ -39,7 +39,18 @@ fi
 if [ -z "${SUBSPACE_HTTP_INSECURE-}" ] ; then
     export SUBSPACE_HTTP_INSECURE="false"
 fi
-
+if [ -z "${SMTP_SERVER-}" ] ; then
+    export SMTP_SERVER=""
+fi
+if [ -z "${SMTP_LOGIN-}" ] ; then
+    export SMTP_LOGIN=""
+fi
+if [ -z "${SMTP_PASSWORD-}" ] ; then
+    export SMTP_PASSWORD=""
+fi
+if [ -z "${SMTP_PORT-}" ] ; then
+    export SMTP_PORT=""
+fi
 export DEBIAN_FRONTEND="noninteractive"
 
 if [ -z "${SUBSPACE_IPV4_GW-}" ] ; then
@@ -77,11 +88,11 @@ if [[ ${SUBSPACE_IPV6_NAT_ENABLED-} -gt 0 ]]; then
 	if ! /sbin/ip6tables -t nat --check POSTROUTING -s ${SUBSPACE_IPV6_POOL} -j MASQUERADE ; then
 	    /sbin/ip6tables -t nat --append POSTROUTING -s ${SUBSPACE_IPV6_POOL} -j MASQUERADE
 	fi
-	
+
 	if ! /sbin/ip6tables --check FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT ; then
 	    /sbin/ip6tables --append FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 	fi
-	
+
 	if ! /sbin/ip6tables --check FORWARD -s ${SUBSPACE_IPV6_POOL} -j ACCEPT ; then
 	    /sbin/ip6tables --append FORWARD -s ${SUBSPACE_IPV6_POOL} -j ACCEPT
 	fi
