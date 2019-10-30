@@ -39,11 +39,14 @@ fi
 if [ -z "${SUBSPACE_HTTP_INSECURE-}" ] ; then
     export SUBSPACE_HTTP_INSECURE="false"
 fi
+if [ -z "${SMTP_FROM-}" ] ; then
+    export SMTP_FROM="wireguard@network.lan"
+fi
 if [ -z "${SMTP_SERVER-}" ] ; then
     export SMTP_SERVER=""
 fi
-if [ -z "${SMTP_LOGIN-}" ] ; then
-    export SMTP_LOGIN=""
+if [ -z "${SMTP_USERNAME-}" ] ; then
+    export SMTP_USERNAME=""
 fi
 if [ -z "${SMTP_PASSWORD-}" ] ; then
     export SMTP_PASSWORD=""
