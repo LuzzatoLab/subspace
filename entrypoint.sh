@@ -154,6 +154,8 @@ export SUBSPACE_IPV6_CIDR=$(echo ${SUBSPACE_IPV6_POOL-} |cut -d '/' -f2)
 ip addr add ${SUBSPACE_IPV6_GW}/${SUBSPACE_IPV6_CIDR} dev wg0
 wg setconf wg0 /data/wireguard/server.conf
 ip link set wg0 up
+
+# Add route
 if [ -n "${SUBSPACE_ROUTE-}" ] ; then
   /sbin/ip route add ${SUBSPACE_ROUTE}
 fi
