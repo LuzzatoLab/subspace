@@ -156,9 +156,9 @@ wg setconf wg0 /data/wireguard/server.conf
 ip link set wg0 up
 
 # Add route
-if [ -n "${SUBSPACE_ROUTE-}" ] ; then
-  /sbin/ip route add ${SUBSPACE_ROUTE}
-fi
+#if [ -n "${SUBSPACE_ROUTE-}" ] ; then
+#  /sbin/ip route add ${SUBSPACE_ROUTE}
+#fi
 
 # dnsmasq service
 if ! test -d /etc/sv/dnsmasq ; then
